@@ -4,7 +4,7 @@ services:
     build: .
     restart: always
     ports:
-      - "8000:8000"
+      - ${PORT}:${PORT}
     depends_on:
       - db
     volumes:
@@ -15,11 +15,11 @@ services:
     container_name: htn-db
     restart: always
     ports:
-      - "5433:5432"
+      - "5433:${DB_PORT}"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "123456"
-      POSTGRES_DB: htn_challenge
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - data:/var/lib/postgresql/data
 volumes:

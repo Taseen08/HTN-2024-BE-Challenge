@@ -1,5 +1,6 @@
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import dotenv from "dotenv";
+import { User, Skill, UserSkill } from "../models";
 
 dotenv.config();
 
@@ -17,6 +18,6 @@ const getSequelizeConfig = (): SequelizeOptions => {
 };
 
 const sequelize = new Sequelize(getSequelizeConfig());
-// sequelize.addModels([User]);
+sequelize.addModels([User, Skill, UserSkill]);
 
 export { sequelize };

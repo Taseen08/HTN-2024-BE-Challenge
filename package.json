@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon src/app.ts",
+    "migrate": "node_modules/.bin/sequelize db:migrate",
+    "migrate:undo": "node_modules/.bin/sequelize db:migrate:undo",
+    "migrate:generate": "node_modules/.bin/sequelize-cli migration:generate --name"
   },
   "repository": {
     "type": "git",
@@ -32,6 +35,7 @@
     "@types/node": "^20.11.19",
     "@types/sequelize": "^4.28.20",
     "nodemon": "^3.0.3",
+    "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
