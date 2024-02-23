@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  api:
+    build: .
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+
+  db:
+    image: postgres
+    container_name: htn-db
+    restart: always
+    ports:
+      - "5433:${DB_PORT}"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - data:/var/lib/postgresql/data
+volumes:
+  data: {}

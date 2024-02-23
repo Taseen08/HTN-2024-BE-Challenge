@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "htnbechallenge2024",
+    "database": "htn_challenge",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5433
+  }
+}
