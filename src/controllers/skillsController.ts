@@ -89,7 +89,7 @@ export const getTeamMatching = async (req: Request, res: Response) => {
         .map((userSkill) => userSkill.userId);
       return res
         .status(200)
-        .json(
+        .send(
           `Hackers (${userNames.join(
             ", "
           )}) would make a great team with common skill in ${validSkill.title}`

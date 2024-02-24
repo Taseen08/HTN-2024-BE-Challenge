@@ -43,7 +43,7 @@ Right now, the database is initialized but it doesn't have the table(s) and user
 npm run migrate
 ```
 
-Now that the database tables are created, we would need to populate the database with the user profiles data. I have downloaded and kept the user profiles json file under `src/data`. To seed the database tables with the data, please make the **`Populate DB`** request on Postman which makes an API call to the `GET http://localhost:8000/setup/import-data` endpoint.
+Now that the database tables are created, we would need to populate the database with the user profiles data. I have downloaded and kept the user profiles json file under `src/data`. To seed the database tables with the data, please make the **`Populate User Profiles`** request on Postman which makes an API call to the `POST http://localhost:8000/setup/import-data` endpoint.
 
 That concludes the setup, the application is now ready to test on the desired endpoints!
 
@@ -116,7 +116,7 @@ Sample `<200>` response:
 
 #### Update User Endpoint
 
-Use the **`Update User`** request which calls the `GET http://localhost:8000/users/<userId>` endpoint.
+Use the **`Update User`** request which calls the `POST http://localhost:8000/users/<userId>` endpoint.
 
 This request needs a body for the update information. The body contains user data (possibly partial) that gets updated.
 
@@ -220,3 +220,103 @@ Sample `<200>` response (with 35-38 min and max range):
 ```
 
 **Note**: That concludes all the basic endpoints that were required in the challenge.
+
+## Bonus
+
+Overview:
+
+- Team matching system that takes a skill and team size and tries to match hackers to form a team
+- User check-in endpoint via internal dashboard and QR Scan.
+- Hardware device lending system endpoints
+
+#### Team Matching Endpoint
+
+Use the **`Team Matching`** request which calls the `GET http://localhost:8000/skills/<skillid>/team-match?teamsize=<size>` endpoint.
+
+Sample `<200>` response (with `Python` and team size `5`):
+
+```text
+Hackers (100, 132, 198, 209, 271) would make a great team with common skill in Python
+```
+
+#### User Check-in Endpoint
+
+Use the **`Check In User`** request which calls the `GET http://localhost:8000/users/<userId>/check-in` endpoint.
+
+Sample body:
+
+```json
+{
+  "source": "dashboard", // or "scan"
+  "notes": "First user check in."
+}
+```
+
+Sample `<200>` response:
+
+```bash
+Hacker Natasha Davis was already checked in to HTN 2024!
+```
+
+#### Device Setup Endpoint (Pre-requisite for the device borrowing endpoints below)
+
+Use the **`Register Devices`** request which calls the `POST http://localhost:8000/setup/register-devices` endpoint. It uses a `JSON` file to populate the database with some hardware devices.
+
+Sample `<200>` response:
+
+```bash
+Devices registered successfully.
+```
+
+#### Borrow Device Endpoint
+
+Use the **`Borrow Device`** request which calls the `POST http://localhost:8000/device/borrow` endpoint.
+
+Sample body:
+
+```json
+{
+  "userId": 566,
+  "deviceId": "TBL-112233"
+}
+```
+
+Sample `<200>` response:
+
+```bash
+Device TBL-112233 is successfully lend to hacker Eric Gibson!
+```
+
+#### Return Device Endpoint
+
+Use the **`Return Device`** request which calls the `POST http://localhost:8000/device/return` endpoint.
+
+Sample body:
+
+```json
+{
+  "userId": 566,
+  "deviceId": "TBL-112233"
+}
+```
+
+Sample `<200>` response:
+
+```bash
+Device returned successfully!
+```
+
+**Note:** This concludes the bonus implementations of the challenge. I wanted to extend it more by adding helper endpoints to the user check-in and device lending process for internal tools but couldn't push for it in the interest of time.
+
+## Implementation Insights
+
+Database tables:
+
+- `users` - Holds the user profile data.
+- `skills` - Stores the unique skills across the entire hacker pool.
+- `user_skills` - Association table between users and skills. Users and skills have a many-to-many relationship.
+- `devices` - Stores registered devices at the hackathon.
+- `borrowed_devices` - Association table between users and devices which keeps track of devices being borrowed and returned by users.
+- `user_checkins` - Records event check-ins for hackers.
+
+**Note**: Since this is just a challenge, for the ease of testing by the reviewing team, I left the `.env` and other configuration files exposed instead of following best practices.
