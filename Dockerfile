@@ -13,7 +13,5 @@ RUN npm run build
 EXPOSE 8000
 
 # Start the app
-# CMD [ "node", "dist/app.js" ]
-# CMD ["nodemon","src/app.ts"]
 CMD ["npm", "run", "dev"]
 

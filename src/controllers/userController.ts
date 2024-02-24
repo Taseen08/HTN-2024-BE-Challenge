@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User, Skill, UserSkill } from "../models";
+import { User, Skill, UserSkill, UserCheckIns } from "../models";
 import { UpdateUserPayload } from "../types";
 
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -28,10 +28,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
       })),
     }));
 
-    res.status(200).json(formattedUsers);
+    return res.status(200).json(formattedUsers);
   } catch (error) {
     console.error("Failed to get all users due to:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -67,10 +67,10 @@ export const getUser = async (req: Request, res: Response) => {
       })),
     };
 
-    res.status(200).json(formattedUser);
+    return res.status(200).json(formattedUser);
   } catch (error) {
     console.error("Failed to get all users due to:", error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -143,9 +143,52 @@ export const updateUser = async (req: Request, res: Response) => {
     };
 
     // Return the updated user data
-    res.status(200).json(formattedUser);
+    return res.status(200).json(formattedUser);
   } catch (error) {
     console.error(`Error updating user with id ${userId}:`, error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export const checkInUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const { source, notes } = req.body;
+
+  // Ensure the source is either 'SCAN' or 'DASHBOARD'
+  if (source != "scan" && source != "dashboard") {
+    return res.status(400).send({ message: "Invalid check-in source." });
+  }
+
+  try {
+    // Validate the user
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).send("Hacker is not a registered user.");
+    }
+
+    // Check if the user is already checked in
+    const alreadyCheckedIn = await UserCheckIns.findOne({
+      where: { userId },
+    });
+
+    if (alreadyCheckedIn) {
+      return res
+        .status(400)
+        .send(`Hacker ${user?.name} was already checked in to HTN 2024!`);
+    }
+
+    // Perform the check-in
+    await UserCheckIns.create({
+      userId,
+      notes,
+      checkinSource: source.toUpperCase(),
+    });
+
+    res.send(
+      `Hacker ${user?.name} has been successfully checked in to HTN 2024!`
+    );
+  } catch (error) {
+    console.error("Error checking in user:", error);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };

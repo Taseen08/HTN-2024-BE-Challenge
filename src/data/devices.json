@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Laptop",
+    "deviceId": "LPT-123456"
+  },
+  {
+    "title": "Laptop",
+    "deviceId": "LPT-654321"
+  },
+  {
+    "title": "Tablet",
+    "deviceId": "TBL-112233"
+  },
+  {
+    "title": "Tablet",
+    "deviceId": "TBL-332211"
+  },
+  {
+    "title": "Smartphone",
+    "deviceId": "SPH-987654"
+  },
+  {
+    "title": "Smartphone",
+    "deviceId": "SPH-456789"
+  },
+  {
+    "title": "Keyboard",
+    "deviceId": "RTR-123890"
+  },
+  {
+    "title": "Keyboard",
+    "deviceId": "RTR-098765"
+  },
+  {
+    "title": "Monitor",
+    "deviceId": "MNT-102938"
+  },
+  {
+    "title": "Monitor",
+    "deviceId": "MNT-019283"
+  }
+]

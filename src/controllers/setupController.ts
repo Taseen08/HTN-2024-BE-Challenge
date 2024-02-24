@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { User, Skill, UserSkill } from "../models";
-import { userProfiles } from "../data";
+import { User, Skill, UserSkill, Device } from "../models";
+import { userProfiles, devices } from "../data";
 
 export const seedUserData = async (req: Request, res: Response) => {
   try {
@@ -40,9 +40,29 @@ export const seedUserData = async (req: Request, res: Response) => {
       }
     }
 
-    res.status(200).send("User data imported successfully.");
+    return res.status(200).send("User data imported successfully.");
   } catch (error) {
     console.error("Failed to import user data:", error);
-    res.status(500).send("Failed to import user data.");
+    return res.status(500).send("Failed to import user data.");
+  }
+};
+
+export const seedDeviceData = async (req: Request, res: Response) => {
+  try {
+    for (const device of devices) {
+      // Insert device into the devices table
+      const [user, userCreated] = await Device.findOrCreate({
+        where: { deviceId: device.deviceId },
+        defaults: {
+          deviceId: device.deviceId,
+          title: device.title,
+        },
+      });
+    }
+
+    return res.status(200).send("Devices registered successfully.");
+  } catch (error) {
+    console.error("Failed to register devices into the database:", error);
+    return res.status(500).send("Failed to register devices into the system.");
   }
 };

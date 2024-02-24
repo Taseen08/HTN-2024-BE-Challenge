@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/users/",
+							"raw": "http://localhost:8000/users/600",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -23,7 +23,7 @@
 							"port": "8000",
 							"path": [
 								"users",
-								""
+								"600"
 							]
 						}
 					},
@@ -56,7 +56,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\": \"+1 (555) 123 4567\"\n}",
+							"raw": "{\n    \"phone\": \"+1 (525) 123 4567\",\n    \"company\": \"Google LLC\",\n    \"skills\" : [\n        {\n            \"skill\": \"C++\",\n            \"rating\": 1\n        },\n        {\n            \"skill\": \"Swift\",\n            \"rating\": 9\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,7 +64,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/users/1",
+							"raw": "http://localhost:8000/users/600",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -72,7 +72,37 @@
 							"port": "8000",
 							"path": [
 								"users",
-								"1"
+								"600"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check In User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"source\": \"dashboard\",\n    \"notes\": \"First user check in.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/users/601/check-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"601",
+								"check-in"
 							]
 						}
 					},
@@ -89,7 +119,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/skills",
+							"raw": "http://localhost:8000/skills?min_frequency=35&max_frequency=38",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -97,6 +127,151 @@
 							"port": "8000",
 							"path": [
 								"skills"
+							],
+							"query": [
+								{
+									"key": "min_frequency",
+									"value": "35"
+								},
+								{
+									"key": "max_frequency",
+									"value": "38"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Team Matching",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/skills/100/team-match?teamsize=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"skills",
+								"100",
+								"team-match"
+							],
+							"query": [
+								{
+									"key": "teamsize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Setup",
+			"item": [
+				{
+					"name": "Populate User Profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/setup/import-data",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"setup",
+								"import-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Devices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/setup/register-devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"setup",
+								"register-devices"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Devices",
+			"item": [
+				{
+					"name": "Borrow Device",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 599,\n  \"deviceId\": \"LPT-123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/device/borrow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"device",
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Return Device",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 599,\n  \"deviceId\": \"LPT-123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/device/return",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"device",
+								"return"
 							]
 						}
 					},
@@ -118,26 +293,6 @@
 					"port": "8000",
 					"path": [
 						"health"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Populate DB",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/setup/import-data",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"setup",
-						"import-data"
 					]
 				}
 			},

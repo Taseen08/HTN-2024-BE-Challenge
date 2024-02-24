@@ -11,7 +11,7 @@ import {
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
-import { Skill, UserSkill } from "./";
+import { Skill, UserSkill, Device, BorrowedDevice } from "./";
 
 @Table({
   tableName: "users",
@@ -46,5 +46,8 @@ export class User extends Model {
   updatedAt: Date;
 
   @BelongsToMany(() => Skill, () => UserSkill)
-  skills!: Skill[];
+  skills: Skill[];
+
+  @BelongsToMany(() => Device, () => BorrowedDevice)
+  devices: Device[];
 }

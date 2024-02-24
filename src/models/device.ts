@@ -5,25 +5,22 @@ import {
   DataType,
   Unique,
   PrimaryKey,
-  AutoIncrement,
   AllowNull,
   BelongsToMany,
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
-import { UserSkill, User } from "./";
+import { BorrowedDevice, User } from "./";
 
 @Table({
-  tableName: "skills",
+  tableName: "devices",
 })
-export class Skill extends Model {
+export class Device extends Model {
   @PrimaryKey
-  @AutoIncrement
-  @Column(DataType.INTEGER)
-  readonly id: number;
+  @Column(DataType.STRING)
+  readonly deviceId: string;
 
   @AllowNull(false)
-  @Unique
   @Column(DataType.STRING)
   title: string;
 
@@ -33,6 +30,6 @@ export class Skill extends Model {
   @UpdatedAt
   updatedAt: Date;
 
-  @BelongsToMany(() => User, () => UserSkill)
+  @BelongsToMany(() => User, () => BorrowedDevice)
   users: User[];
 }

@@ -21,7 +21,7 @@ const init = async () => {
 
 const server = async () => {
   try {
-    // Connect to the database via Sequeliza
+    // Connect to the database via Sequelize
     await sequelize.authenticate();
     console.log("Connection to database has been successfully established!");
     await init();
