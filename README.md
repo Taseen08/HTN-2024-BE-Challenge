@@ -247,7 +247,14 @@ Sample body:
 
 ```json
 {
-  "source": "dashboard", // or "scan"
+  "source": "dashboard",
+  "notes": "First user check in."
+}
+```
+or
+```json
+{
+  "source": "scan",
   "notes": "First user check in."
 }
 ```
@@ -320,3 +327,5 @@ Database tables:
 - `user_checkins` - Records event check-ins for hackers.
 
 **Note**: Since this is just a challenge, for the ease of testing by the reviewing team, I left the `.env` and other configuration files exposed instead of following best practices.
+
+# Thank you!
